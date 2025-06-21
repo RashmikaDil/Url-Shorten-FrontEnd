@@ -1,20 +1,22 @@
 import axios from "axios";
-import { useState } from "react";
+import { use, useState } from "react";
 
 const Track = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [url, setUrl] = useState('');
   const [error, setError] = useState(null);
   const [trackData, setTrackData] = useState(null);
+  const [loading , setLoading] = useState(false);
 
   const handleTrack = () => {
-    // Extract ID when the user clicks the button
+    setLoading(true);
     const parts = url.split('/');
     const id = parts[parts.length - 1];
 
     if (!id) {
       setError('Invalid URL format. Cannot extract ID.');
       setTrackData(null);
+      setLoading(false);
       return;
     }
 
@@ -25,15 +27,18 @@ const Track = () => {
         if (response.data) {
           setTrackData(response.data);
           setError(null);
+           setLoading(false);
         } else {
           setError('No data found for this URL');
           setTrackData(null);
+           setLoading(false);
         }
       })
       .catch((error) => {
         console.error('Error tracking URL:', error);
         setError('Error tracking URL');
         setTrackData(null);
+         setLoading(false);
       });
   };
 
@@ -51,7 +56,7 @@ const Track = () => {
           />
           <button
             onClick={handleTrack}
-            className='bg-blue-500 text-white p-3 pl-10 pr-10 rounded-r-lg hover:bg-blue-600 border-1 border-blue-500 cursor-pointer'
+            className={`bg-blue-500 text-white p-3 pl-10 pr-10 rounded-r-lg hover:bg-blue-600 border-1 border-blue-500 cursor-pointer ${loading ? 'opacity-50  cursor-not-allowed' : ' opacity-100 cursor-pointer'}`}
           >
             Track
           </button>
@@ -61,15 +66,17 @@ const Track = () => {
       {error && <h1 className='text-xs text-yellow-500 mt-2'>{error}</h1>}
 
       {trackData && (
-        <div className="mt-4 text-white text-center">
-          <h2 className="text-lg font-semibold">Tracked URL Info:</h2>
-          <p><strong>Original URL:</strong> {trackData.url}</p>
+        <div className="mt-4 text-white text-center  ">
+          <h2 className="text-lg font-semibold ">Tracked URL Info:</h2>
+          <p className="text-wrap"><strong>Original URL:</strong> {trackData.url}</p>
       
           <p><strong>Created At:</strong> {new Date(trackData.createdAt).toLocaleString()}</p>
               <p><strong>Click Count:</strong> {trackData.count}</p>
-             
+              <p><strong>Unique Visitors:</strong> {trackData.visitors.length}</p>
         </div>
+        
       )}
+      <div className="mt-4 text-white text-center "></div>
     </>
   );
 };
