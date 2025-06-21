@@ -99,7 +99,7 @@ const [loading , setLoading] = useState(false);
       <p className='text-lg text-gray-400 mt-4'>A simple URL shortener application</p>
       <div className='mt-8 flex items-center justify-center'>
         <input type="text" value={url} onChange={(e) => setLink(e.target.value)} placeholder='Enter URL to shorten' className='border-1 border-blue-500 p-3 pl-5 pr-10 rounded-l-lg w-[95%] text-gray-100' />
-        <button onClick={() => handleShorten(url)} className={`bg-blue-500 text-white p-3 pl-10 pr-10 rounded-r-lg hover:bg-blue-600 border-1 border-blue-500 cursor-pointer ${loading ? 'opacity-50  cursor-not-allowed' : ' opacity-100 cursor-pointer'}`}> {shortenedLink ? 'Copy'   :  'Short'}</button>
+        <button onClick={() => handleShorten(url)} className={`bg-blue-500 text-white p-3 pl-10 pr-10 rounded-r-lg hover:bg-blue-600 border-1 border-blue-500 cursor-pointer ${loading ? 'opacity-50 hover:bg-gray-600  border-gray-600  cursor-not-allowed' : ' opacity-100 cursor-pointer'}`}> {shortenedLink ? 'Copy'   :  'Short'}</button>
 
      
      
